@@ -1,0 +1,49 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# API route redirects
+[[redirects]]
+  from = "/api/status"
+  to = "/.netlify/functions/status"
+  status = 200
+
+[[redirects]]
+  from = "/api/continents"
+  to = "/.netlify/functions/continents"
+  status = 200
+
+[[redirects]]
+  from = "/api/countries"
+  to = "/.netlify/functions/countries"
+  status = 200
+
+[[redirects]]
+  from = "/api/airports"
+  to = "/.netlify/functions/airports"
+  status = 200
+
+[[redirects]]
+  from = "/api/flights/discover"
+  to = "/.netlify/functions/flights-discover"
+  status = 200
+
+[[redirects]]
+  from = "/api/flights/search"
+  to = "/.netlify/functions/flights-search"
+  status = 200
+
+[[redirects]]
+  from = "/api/flights/price-metrics"
+  to = "/.netlify/functions/flights-price-metrics"
+  status = 200
+
+# SPA fallback — must be last
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

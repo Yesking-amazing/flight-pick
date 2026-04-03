@@ -42,8 +42,8 @@ export default function PriceChart({ data, height = 60, showTooltip = false, sho
               fontSize: '12px',
               color: '#e2e8f0',
             }}
-            formatter={(value: number) => [`$${value}`, 'Price']}
-            labelFormatter={(label: string) => label}
+            formatter={(value: any) => [`$${value}`, 'Price']}
+            labelFormatter={(label: any) => String(label)}
           />
         )}
         <Area
