@@ -5,6 +5,13 @@
 
 [functions]
   node_bundler = "esbuild"
+  external_node_modules = []
+
+[functions."flights-discover"]
+  timeout = 26
+
+[functions."flights-search"]
+  timeout = 26
 
 # API route redirects
 [[redirects]]
