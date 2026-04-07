@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, Waypoints } from 'lucide-react';
+import { ArrowRight, Clock, Waypoints, TrendingDown } from 'lucide-react';
 import type { DealFlight } from '../services/api';
 import DealBadge from './DealBadge';
 
@@ -15,8 +15,23 @@ export default function FlightCard({ flight }: Props) {
     <Link
       to={`/flight/${encodedId}`}
       state={{ flight }}
-      className="block bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 hover:border-sky-500/30 hover:bg-slate-800/80 transition-all no-underline group"
+      className="block bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 hover:border-sky-500/30 hover:bg-slate-800/80 transition-all no-underline group relative overflow-hidden"
     >
+      {/* Big discount percentage badge in corner */}
+      {flight.discountPercent > 0 && (
+        <div className={`absolute top-0 right-0 px-3 py-1.5 rounded-bl-xl font-black text-sm ${
+          flight.discountPercent >= 30
+            ? 'bg-red-500/90 text-white'
+            : flight.discountPercent >= 20
+            ? 'bg-orange-500/90 text-white'
+            : flight.discountPercent >= 10
+            ? 'bg-yellow-500/90 text-black'
+            : 'bg-sky-500/90 text-white'
+        }`}>
+          -{flight.discountPercent}%
+        </div>
+      )}
+
       <div className="flex items-start justify-between mb-3">
         {flight.discountPercent > 0 ? (
           <DealBadge discountPercent={flight.discountPercent} />
@@ -25,7 +40,7 @@ export default function FlightCard({ flight }: Props) {
             FLIGHT
           </span>
         )}
-        <span className="text-xs text-slate-500">{flight.airline}</span>
+        <span className="text-xs text-slate-500 mr-12">{flight.airline}</span>
       </div>
 
       <div className="flex items-center gap-3 mb-1">
@@ -68,7 +83,6 @@ export default function FlightCard({ flight }: Props) {
             <span>${Math.round(flight.priceMetrics.max)}</span>
           </div>
           <div className="relative h-2 bg-slate-700 rounded-full overflow-hidden">
-            {/* Range bar */}
             <div
               className="absolute h-full bg-slate-600 rounded-full"
               style={{
@@ -76,7 +90,6 @@ export default function FlightCard({ flight }: Props) {
                 width: `${((flight.priceMetrics.thirdQuartile - flight.priceMetrics.firstQuartile) / (flight.priceMetrics.max - flight.priceMetrics.min)) * 100}%`,
               }}
             />
-            {/* Current price marker */}
             <div
               className={`absolute w-2 h-2 rounded-full top-0 -translate-x-1 ${
                 flight.discountPercent >= 20 ? 'bg-green-400' : flight.discountPercent >= 10 ? 'bg-yellow-400' : 'bg-sky-400'
@@ -99,8 +112,9 @@ export default function FlightCard({ flight }: Props) {
           )}
         </div>
         {savings > 0 && (
-          <span className="text-sm text-green-400 font-medium">
-            Save ${savings}
+          <span className="flex items-center gap-1 text-sm text-green-400 font-bold">
+            <TrendingDown className="w-3.5 h-3.5" />
+            ${savings} cheaper
           </span>
         )}
       </div>

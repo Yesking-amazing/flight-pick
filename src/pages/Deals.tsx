@@ -11,12 +11,13 @@ export default function Deals() {
   const [error, setError] = useState<string | null>(null);
   const [searched, setSearched] = useState(false);
   const [searchParams, setSearchParams] = useState<{
+    origin: string;
     continent: string;
     country?: string;
     month: string;
   } | null>(null);
 
-  async function handleSearch(params: { continent: string; country?: string; month: string }) {
+  async function handleSearch(params: { origin: string; continent: string; country?: string; month: string }) {
     setLoading(true);
     setError(null);
     setSearchParams(params);
@@ -48,7 +49,7 @@ export default function Deals() {
           Find Your Next Flight Deal
         </h1>
         <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-          Pick a continent, narrow it down by country, choose your month — we'll find the biggest price drops for you.
+          Pick where you're flying from, choose a destination region and month — we'll find the biggest price drops for you.
         </p>
       </div>
 
@@ -92,6 +93,11 @@ export default function Deals() {
                 {searchParams?.country
                   ? `${searchParams.country} Deals`
                   : `${searchParams?.continent} Deals`}
+                {searchParams?.origin && (
+                  <span className="text-slate-500 font-normal text-base ml-1">
+                    from {searchParams.origin}
+                  </span>
+                )}
               </h2>
               <span className="text-sm text-slate-500">{allDeals.length} deals found</span>
             </div>
@@ -116,8 +122,8 @@ export default function Deals() {
       {/* Initial state */}
       {!searched && !loading && (
         <div className="text-center py-12 text-slate-500">
-          <TrendingDown className="w-16 h-16 mx-auto mb-4 opacity-15" />
-          <p className="text-lg">Pick a continent above to start discovering deals</p>
+          <Plane className="w-16 h-16 mx-auto mb-4 opacity-15" />
+          <p className="text-lg">Select your airport above to start finding deals</p>
         </div>
       )}
     </div>
